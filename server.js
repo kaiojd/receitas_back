@@ -21,11 +21,18 @@ servidor.post('/usuarios', async ( request, reply) => {
 
    if(!body || !body.nome || !body.senha){
        return reply.status(400).send({message:"nome e senha obrigatórios"})
-}
-   
+} 
 
-    const resultado = await sql.query('INSERT INTO usuario (nome,senha) VALUES ($1, $2)', [body.nome, body.senha])
-   return 'usuario cadastrado!'
+else if (!id){
+    return reply.status(400).send({
+        message: "faltou o ID!"
+    })
+}
+
+
+
+const resultado = await sql.query('INSERT INTO usuario (nome,senha) VALUES ($1, $2)', [body.nome, body.senha])
+   reply.status(201).send({message: 'usuario criado!'})
 })
 
 
